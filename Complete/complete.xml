@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<MultiTabWorkspace>
+    <Tab title="Workspace 1">
+        <Palette>
+            <Color name="RED"/>
+            <Color name="GREEN"/>
+            <Color name="BLUE"/>
+            <Color name="ORANGE"/>
+            <Color name="MAGENTA"/>
+        </Palette>
+        <Swatches>
+            <Swatch color="RED" x="204" y="36"/>
+            <Swatch color="GREEN" x="63" y="126"/>
+            <Swatch color="BLUE" x="206" y="204"/>
+            <Swatch color="MAGENTA" x="345" y="131"/>
+        </Swatches>
+        <Connections>
+            <Connection sourceIndex="0" targetIdx="3"/>
+            <Connection sourceIndex="2" targetIdx="3"/>
+            <Connection sourceIndex="0" targetIdx="1"/>
+            <Connection sourceIndex="1" targetIdx="2"/>
+            <Connection sourceIndex="0" targetIdx="2"/>
+        </Connections>
+    </Tab>
+    <Tab title="Workspace 2">
+        <Palette>
+            <Color name="BLUE"/>
+            <Color name="RED"/>
+            <Color name="MAGENTA"/>
+        </Palette>
+        <Swatches/>
+        <Connections/>
+    </Tab>
+    <Tab title="Workspace 3">
+        <Palette>
+            <Color name="ORANGE"/>
+            <Color name="GREEN"/>
+        </Palette>
+        <Swatches>
+            <Swatch color="GREEN" x="417" y="68"/>
+        </Swatches>
+        <Connections/>
+    </Tab>
+</MultiTabWorkspace>
