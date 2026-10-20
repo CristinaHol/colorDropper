@@ -34,17 +34,16 @@ public class ColorWorkspacePanel extends JPanel {
 
         dropTargetPanel = new DropCanvasPanel();
         dropTargetPanel.setTransferHandler(new ColorDropHandler(dropTargetPanel));
-
+      
         
         palettePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 15));
         palettePanel.setBorder(BorderFactory.createTitledBorder("Drag a Color Swatch - Hold shift to add a connection - Right click to delete"));
 
-        
-        
+                
         for (Color color : customColors) {
             palettePanel.add(createColorSwatch(color));
         }
-        
+
         add(palettePanel, BorderLayout.NORTH);
         add(dropTargetPanel, BorderLayout.CENTER);
         

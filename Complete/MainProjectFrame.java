@@ -23,9 +23,34 @@ public class MainProjectFrame extends JFrame{
 		tabbedPane.addTab("Workspace 2", new ColorWorkspacePanel(tab2Colors));
 		Color[] tab3Colors = {Color.ORANGE, Color.GREEN};
 		tabbedPane.addTab("Workspace 3", new ColorWorkspacePanel(tab3Colors));
-		JPanel controlPanel = new JPanel();
+		
+        JButton infoButton = new JButton("i");
+        infoButton.setToolTipText("Help & Instructions");
+        infoButton.setFont(new Font("Serif", Font.BOLD, 14));
+        infoButton.setPreferredSize(new Dimension(15,15));
+
+        infoButton.addActionListener(e -> {
+            String instructions = "<html><b><font size='4'>Workspace User Guide</font></b><br><br>" +
+                "<b>• Drag Swatch:</b> Click and drag any color swatch to move it.<br>" +
+                "<b>• Create Connection:</b> Hold <b>Shift</b> and drag from a source swatch to a target swatch.<br>" +
+                "<b>• Edit Properties:</b> Right-click a swatch to open the text box and change its opacity.<br>" +
+                "<b>• Delete Element:</b> Double-click any swatch or connection line to delete it.<br>" +
+                "<b>• Save / Load:</b> Use the bottom buttons to persist your setup to XML.</html>";
+                
+            JOptionPane.showMessageDialog(this, instructions, "Information", JOptionPane.INFORMATION_MESSAGE);
+        });
+
+        JPanel tabHeaderWrapper = new JPanel(new BorderLayout());
+        tabHeaderWrapper.add(tabbedPane, BorderLayout.CENTER);
+        
+        JPanel buttonWrapper = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 2));
+        buttonWrapper.add(infoButton);
+        tabHeaderWrapper.add(buttonWrapper, BorderLayout.EAST);
+
+        JPanel controlPanel = new JPanel();
         JButton saveButton = new JButton("Save");
         JButton loadButton = new JButton("Load from XML");
+        
         saveButton.addActionListener(e -> {
             if(currentFile != null){
                 saveAllTabsToXML(currentFile);
@@ -37,6 +62,8 @@ public class MainProjectFrame extends JFrame{
                 }
             }
         });
+
+
         loadButton.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -44,9 +71,11 @@ public class MainProjectFrame extends JFrame{
                 loadAllTabsFromXML(currentFile);
             }
         });
+
+
         controlPanel.add(saveButton);
         controlPanel.add(loadButton);
-		add(tabbedPane, BorderLayout.CENTER);
+		add(tabHeaderWrapper, BorderLayout.CENTER);
 		add(controlPanel, BorderLayout.SOUTH);
 	}
 
