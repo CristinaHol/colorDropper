@@ -45,7 +45,7 @@ public class MainProjectFrame extends JFrame{
         
         JPanel buttonWrapper = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 2));
         buttonWrapper.add(infoButton);
-        tabHeaderWrapper.add(buttonWrapper, BorderLayout.EAST);
+        tabHeaderWrapper.add(buttonWrapper, BorderLayout.NORTH);
 
         JPanel controlPanel = new JPanel();
         JButton saveButton = new JButton("Save");

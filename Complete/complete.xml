@@ -9,10 +9,26 @@
             <Color name="MAGENTA"/>
         </Palette>
         <Swatches>
-            <Swatch color="RED" x="204" y="36"/>
-            <Swatch color="GREEN" x="63" y="126"/>
-            <Swatch color="BLUE" x="206" y="204"/>
-            <Swatch color="MAGENTA" x="345" y="131"/>
+            <Swatch color="RED" x="204" y="36">
+                <property name="alpha">
+                    <value>255</value>
+                </property>
+            </Swatch>
+            <Swatch color="GREEN" x="63" y="126">
+                <property name="alpha">
+                    <value>255</value>
+                </property>
+            </Swatch>
+            <Swatch color="BLUE" x="206" y="204">
+                <property name="alpha">
+                    <value>255</value>
+                </property>
+            </Swatch>
+            <Swatch color="MAGENTA" x="345" y="131">
+                <property name="alpha">
+                    <value>255</value>
+                </property>
+            </Swatch>
         </Swatches>
         <Connections>
             <Connection sourceIndex="0" targetIdx="3"/>
@@ -28,7 +44,38 @@
             <Color name="RED"/>
             <Color name="MAGENTA"/>
         </Palette>
-        <Swatches/>
+        <Swatches>
+            <Swatch color="MAGENTA" x="366" y="101">
+                <property name="alpha">
+                    <value>100</value>
+                </property>
+            </Swatch>
+            <Swatch color="RED" x="339" y="79">
+                <property name="alpha">
+                    <value>255</value>
+                </property>
+            </Swatch>
+            <Swatch color="BLUE" x="390" y="79">
+                <property name="alpha">
+                    <value>255</value>
+                </property>
+            </Swatch>
+            <Swatch color="MAGENTA" x="338" y="126">
+                <property name="alpha">
+                    <value>255</value>
+                </property>
+            </Swatch>
+            <Swatch color="BLUE" x="434" y="141">
+                <property name="alpha">
+                    <value>100</value>
+                </property>
+            </Swatch>
+            <Swatch color="RED" x="434" y="141">
+                <property name="alpha">
+                    <value>100</value>
+                </property>
+            </Swatch>
+        </Swatches>
         <Connections/>
     </Tab>
     <Tab title="Workspace 3">
@@ -37,8 +84,31 @@
             <Color name="GREEN"/>
         </Palette>
         <Swatches>
-            <Swatch color="GREEN" x="417" y="68"/>
+            <Swatch color="GREEN" x="417" y="68">
+                <property name="alpha">
+                    <value>50</value>
+                </property>
+            </Swatch>
+            <Swatch color="ORANGE" x="346" y="104">
+                <property name="alpha">
+                    <value>0</value>
+                </property>
+            </Swatch>
+            <Swatch color="ORANGE" x="243" y="48">
+                <property name="alpha">
+                    <value>255</value>
+                </property>
+            </Swatch>
+            <Swatch color="ORANGE" x="362" y="23">
+                <property name="alpha">
+                    <value>255</value>
+                </property>
+            </Swatch>
         </Swatches>
-        <Connections/>
+        <Connections>
+            <Connection sourceIndex="2" targetIdx="0"/>
+            <Connection sourceIndex="2" targetIdx="1"/>
+            <Connection sourceIndex="1" targetIdx="0"/>
+        </Connections>
     </Tab>
 </MultiTabWorkspace>

@@ -221,7 +221,7 @@ public class ColorWorkspacePanel extends JPanel {
 
                 @Override
                 public void  mousePressed(MouseEvent e){
-                    if (SwingUtilities.isRightMouseButton(e)) {
+                    if(e.getClickCount() == 2){
                         JPopupMenu menu = new JPopupMenu();
                         JMenuItem deleteItem = new JMenuItem("Delete Swatch");
                         deleteItem.addActionListener(ev -> parentPanel.removeSwatch(swatch));
@@ -229,6 +229,30 @@ public class ColorWorkspacePanel extends JPanel {
                         menu.show(swatch, e.getX(), e.getY());
                         return;
                     }
+
+                    if (SwingUtilities.isRightMouseButton(e)) {
+                        String input = JOptionPane.showInputDialog(parentPanel, 
+                            "Enter Alpha/Transparency value (0-255):", 
+                            String.valueOf(swatch.getBackground().getAlpha()));
+                        
+                        if (input != null && !input.trim().isEmpty()) {
+                            try {
+                                int alpha = Integer.parseInt(input.trim());
+                                alpha = Math.max(0, Math.min(255, alpha)); // Clamp value between 0 and 255
+                                
+                                Color current = swatch.getBackground();
+                                // Keep the base color, but apply the new single alpha value
+                                Color newColor = new Color(current.getRed(), current.getGreen(), current.getBlue(), alpha);
+                                
+                                swatch.setBackground(newColor);
+                                parentPanel.repaint();
+                            } catch (NumberFormatException ex) {
+                                JOptionPane.showMessageDialog(parentPanel, "Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                        return;
+                    }
+                    
 
                     if(e.isShiftDown()){
                         parentPanel.connectionSource = swatch;
@@ -238,6 +262,8 @@ public class ColorWorkspacePanel extends JPanel {
                     initialSwatchLoc = swatch.getLocation();
                     parentPanel.setComponentZOrder(swatch, 0);
                     }
+
+
                     parentPanel.repaint();
                 }
 
@@ -411,6 +437,13 @@ public class ColorWorkspacePanel extends JPanel {
                     swatchElem.setAttribute("color", getColorName(swatch.getBackground()));
                     swatchElem.setAttribute("x", String.valueOf(swatch.getX()));
                     swatchElem.setAttribute("y", String.valueOf(swatch.getY()));
+                    Element propElem = doc.createElement("property");
+                    propElem.setAttribute("name", "alpha");
+                    Element valueElem = doc.createElement("value");
+                    valueElem.setTextContent(String.valueOf(swatch.getBackground().getAlpha()));
+
+                    propElem.appendChild(valueElem);
+                    swatchElem.appendChild(propElem);
                     swatchesElement.appendChild(swatchElem);
             }
 
@@ -471,7 +504,21 @@ public class ColorWorkspacePanel extends JPanel {
                     int x = Integer.parseInt(element.getAttribute("x"));
                     int y = Integer.parseInt(element.getAttribute("y"));
 
-                    Color color = parseColorName(colorName);
+                    int alpha = 255;
+                    NodeList propertyList = element.getElementsByTagName("property");
+                    for(int j = 0; j < propertyList.getLength(); j++){
+                        Element propElem = (Element) propertyList.item(j);
+                        if("alpha".equals(propElem.getAttribute("name"))){
+                            NodeList valueList = propElem.getElementsByTagName("value");
+                            if(valueList.getLength() > 0){
+                                alpha = Integer.parseInt(valueList.item(0).getTextContent().trim());
+                            }
+                        }
+                    }
+
+                    Color baseColor = parseColorName(colorName);
+                    Color color = new Color(baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue(), alpha);
+
                     JPanel swatch = new JPanel();
                     swatch.setBackground(color);
                     swatch.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -503,11 +550,15 @@ public class ColorWorkspacePanel extends JPanel {
             dropTargetPanel.repaint();
     }
     private String getColorName(Color color) {
-        if (color.equals(Color.RED)) return "RED";
-        if (color.equals(Color.BLUE)) return "BLUE";
-        if (color.equals(Color.GREEN)) return "GREEN";
-        if (color.equals(Color.ORANGE)) return "ORANGE";
-        if (color.equals(Color.MAGENTA)) return "MAGENTA";
+        int r = color.getRed();
+        int g = color.getGreen();
+        int b = color.getBlue();
+        
+        if (r == Color.RED.getRed() && g == Color.RED.getGreen() && b == Color.RED.getBlue()) return "RED";
+        if (r == Color.BLUE.getRed() && g == Color.BLUE.getGreen() && b == Color.BLUE.getBlue()) return "BLUE";
+        if (r == Color.GREEN.getRed() && g == Color.GREEN.getGreen() && b == Color.GREEN.getBlue()) return "GREEN";
+        if (r == Color.ORANGE.getRed() && g == Color.ORANGE.getGreen() && b == Color.ORANGE.getBlue()) return "ORANGE";
+        if (r == Color.MAGENTA.getRed() && g == Color.MAGENTA.getGreen() && b == Color.MAGENTA.getBlue()) return "MAGENTA";
         return "BLACK";
     }
 
