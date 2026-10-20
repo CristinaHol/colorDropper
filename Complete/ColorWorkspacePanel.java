@@ -231,25 +231,32 @@ public class ColorWorkspacePanel extends JPanel {
                     }
 
                     if (SwingUtilities.isRightMouseButton(e)) {
-                        String input = JOptionPane.showInputDialog(parentPanel, 
-                            "Enter Alpha/Transparency value (0-255):", 
-                            String.valueOf(swatch.getBackground().getAlpha()));
-                        
-                        if (input != null && !input.trim().isEmpty()) {
-                            try {
-                                int alpha = Integer.parseInt(input.trim());
-                                alpha = Math.max(0, Math.min(255, alpha)); // Clamp value between 0 and 255
-                                
-                                Color current = swatch.getBackground();
-                                // Keep the base color, but apply the new single alpha value
-                                Color newColor = new Color(current.getRed(), current.getGreen(), current.getBlue(), alpha);
-                                
-                                swatch.setBackground(newColor);
-                                parentPanel.repaint();
-                            } catch (NumberFormatException ex) {
-                                JOptionPane.showMessageDialog(parentPanel, "Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
+                        Color currentColor = swatch.getBackground();
+                        String colorName = getColorName(currentColor);
+
+                        if("RED".equals(colorName) || "ORANGE".equals(colorName)){
+                            String input = JOptionPane.showInputDialog(parentPanel, 
+                                "Enter Alpha/Transparency value (0-255):", 
+                                String.valueOf(swatch.getBackground().getAlpha()));
+                            
+                            if (input != null && !input.trim().isEmpty()) {
+                                try {
+                                    int alpha = Integer.parseInt(input.trim());
+                                    alpha = Math.max(0, Math.min(255, alpha)); // Clamp value between 0 and 255
+                                    
+                                    Color current = swatch.getBackground();
+                                    // Keep the base color, but apply the new single alpha value
+                                    Color newColor = new Color(current.getRed(), current.getGreen(), current.getBlue(), alpha);
+                                    
+                                    swatch.setBackground(newColor);
+                                    parentPanel.repaint();
+                                } catch (NumberFormatException ex) {
+                                    JOptionPane.showMessageDialog(parentPanel, "Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
+                                }
                             }
-                        }
+                        } else {
+                                JOptionPane.showMessageDialog(parentPanel, "This component is read-only and cannot be edited.", "Locked", JOptionPane.WARNING_MESSAGE);
+                            }
                         return;
                     }
                     
@@ -549,7 +556,7 @@ public class ColorWorkspacePanel extends JPanel {
             dropTargetPanel.revalidate();
             dropTargetPanel.repaint();
     }
-    private String getColorName(Color color) {
+    private static String getColorName(Color color) {
         int r = color.getRed();
         int g = color.getGreen();
         int b = color.getBlue();
@@ -562,7 +569,7 @@ public class ColorWorkspacePanel extends JPanel {
         return "BLACK";
     }
 
-    private Color parseColorName(String name) {
+    private static Color parseColorName(String name) {
         switch (name) {
             case "RED": return Color.RED;
             case "BLUE": return Color.BLUE;
