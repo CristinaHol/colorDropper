@@ -86,7 +86,7 @@ public class ColorWorkspacePanel extends JPanel {
     }
 
 
-    private static class DropCanvasPanel extends JPanel{
+    private class DropCanvasPanel extends JPanel{
         private final List<JPanel> swatches = new ArrayList<>();
         private final List<SwatchConnection> connections = new ArrayList<>();
         private JPanel connectionSource = null;
@@ -232,6 +232,7 @@ public class ColorWorkspacePanel extends JPanel {
 
                     if (SwingUtilities.isRightMouseButton(e)) {
                         Color currentColor = swatch.getBackground();
+
                         String colorName = getColorName(currentColor);
 
                         if("RED".equals(colorName) || "ORANGE".equals(colorName)){
@@ -254,6 +255,8 @@ public class ColorWorkspacePanel extends JPanel {
                                     JOptionPane.showMessageDialog(parentPanel, "Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
                             }
+                        } else if("BLUE".equals(colorName)){
+                            ColorWorkspacePanel.this.openTableEditor(swatch);
                         } else {
                                 JOptionPane.showMessageDialog(parentPanel, "This component is read-only and cannot be edited.", "Locked", JOptionPane.WARNING_MESSAGE);
                             }
@@ -444,13 +447,36 @@ public class ColorWorkspacePanel extends JPanel {
                     swatchElem.setAttribute("color", getColorName(swatch.getBackground()));
                     swatchElem.setAttribute("x", String.valueOf(swatch.getX()));
                     swatchElem.setAttribute("y", String.valueOf(swatch.getY()));
+                    String colorName = getColorName(swatch.getBackground());
+                    if("RED".equals(colorName) || "ORANGE".equals(colorName)){
                     Element propElem = doc.createElement("property");
                     propElem.setAttribute("name", "alpha");
                     Element valueElem = doc.createElement("value");
                     valueElem.setTextContent(String.valueOf(swatch.getBackground().getAlpha()));
-
                     propElem.appendChild(valueElem);
                     swatchElem.appendChild(propElem);
+                    } else if("BLUE".equals(colorName)){
+                        // --- Save Table / Gradient Coefficients ---
+                        Element propElem = doc.createElement("property");
+                        propElem.setAttribute("name", "coefficient_table");
+                        
+                        Element tableElem = doc.createElement("table");
+                        
+                        // Retrieve the table data stored in the swatch's client properties
+                        Object[][] tableData = (Object[][]) swatch.getClientProperty("tableData");
+                        if (tableData != null) {
+                            tableElem.setAttribute("rows", String.valueOf(tableData.length));
+                            for (Object[] row : tableData) {
+                                Element rowElem = doc.createElement("row");
+                                rowElem.setAttribute("x", String.valueOf(row[0]));
+                                rowElem.setAttribute("y", String.valueOf(row[1]));
+                                tableElem.appendChild(rowElem);
+                            }
+                        }
+                        propElem.appendChild(tableElem);
+                        swatchElem.appendChild(propElem);
+                    }
+                    
                     swatchesElement.appendChild(swatchElem);
             }
 
@@ -470,6 +496,7 @@ public class ColorWorkspacePanel extends JPanel {
                 }
             }
     }
+
     public void loadTabFromXML(Element tabElement){
         dropTargetPanel.removeAll();
         dropTargetPanel.connections.clear();
@@ -512,6 +539,7 @@ public class ColorWorkspacePanel extends JPanel {
                     int y = Integer.parseInt(element.getAttribute("y"));
 
                     int alpha = 255;
+                    Object[][] loadedTableData = null;
                     NodeList propertyList = element.getElementsByTagName("property");
                     for(int j = 0; j < propertyList.getLength(); j++){
                         Element propElem = (Element) propertyList.item(j);
@@ -519,6 +547,14 @@ public class ColorWorkspacePanel extends JPanel {
                             NodeList valueList = propElem.getElementsByTagName("value");
                             if(valueList.getLength() > 0){
                                 alpha = Integer.parseInt(valueList.item(0).getTextContent().trim());
+                            }
+                        } else if("coefficient_table".equals(propElem.getAttribute("name"))){
+                            NodeList rowList = propElem.getElementsByTagName("row");
+                            loadedTableData = new Object[rowList.getLength()][2];
+                            for (int r = 0; r < rowList.getLength(); r++) {
+                                Element rowElem = (Element) rowList.item(r);
+                                loadedTableData[r][0] = rowElem.getAttribute("x");
+                                loadedTableData[r][1] = rowElem.getAttribute("y");
                             }
                         }
                     }
@@ -530,6 +566,11 @@ public class ColorWorkspacePanel extends JPanel {
                     swatch.setBackground(color);
                     swatch.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                     swatch.setBounds(x,y,40,40);
+
+                    if (loadedTableData != null) {
+                        swatch.putClientProperty("tableData", loadedTableData);
+                    }
+
 
                     dropTargetPanel.makeInteractive(swatch, dropTargetPanel);
                     dropTargetPanel.add(swatch);
@@ -556,6 +597,8 @@ public class ColorWorkspacePanel extends JPanel {
             dropTargetPanel.revalidate();
             dropTargetPanel.repaint();
     }
+
+
     private static String getColorName(Color color) {
         int r = color.getRed();
         int g = color.getGreen();
@@ -578,6 +621,58 @@ public class ColorWorkspacePanel extends JPanel {
             case "MAGENTA": return Color.MAGENTA;
             default: return Color.BLACK;
         }
+    }
+
+    private void openTableEditor(JPanel swatch) {
+        JDialog tableDialog = new JDialog((Frame) null, "Coefficient / Gradient Workspace", true);
+        tableDialog.setSize(350, 300);
+        tableDialog.setLocationRelativeTo(ColorWorkspacePanel.this); // or parentPanel
+
+        String[] columnNames = {"Coefficient X", "Coefficient Y"};
+        Object[][] data = (Object[][]) swatch.getClientProperty("tableData");
+        if(data == null){
+            data = new Object[][] {
+            { "0.0", "1.0" },
+            { "0.5", "0.5" },
+            { "1.0", "0.2" }
+        };
+        }
+
+        
+
+        JTable table = new JTable(data, columnNames);
+        JScrollPane scrollPane = new JScrollPane(table);
+        
+        JButton saveButton = new JButton("Apply Changes");
+        saveButton.addActionListener(e -> {
+            // 1. Stop any active cell editing so the final value is captured
+            if (table.isEditing()) {
+                table.getCellEditor().stopCellEditing();
+            }
+
+            int rowCount = table.getRowCount();
+            int colCount = table.getColumnCount();
+            Object[][] updatedDataMatrix = new Object[rowCount][colCount];
+
+            // 2. Extract the data row by row from the table model
+            for (int row = 0; row < rowCount; row++) {
+                for (int col = 0; col < colCount; col++) {
+                    updatedDataMatrix[row][col] = table.getValueAt(row, col);
+                }
+            }
+
+            // 3. STORE IT BACK INTO THE SWATCH HERE:
+            swatch.putClientProperty("tableData", updatedDataMatrix);
+
+            // 4. Close the dialog
+            // Extract table data and store it
+            tableDialog.dispose();
+        });
+
+        tableDialog.setLayout(new BorderLayout());
+        tableDialog.add(scrollPane, BorderLayout.CENTER);
+        tableDialog.add(saveButton, BorderLayout.SOUTH);
+        tableDialog.setVisible(true);
     }
 
 }

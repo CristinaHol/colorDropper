@@ -14,21 +14,17 @@
                     <value>255</value>
                 </property>
             </Swatch>
-            <Swatch color="GREEN" x="63" y="126">
-                <property name="alpha">
-                    <value>255</value>
-                </property>
-            </Swatch>
+            <Swatch color="GREEN" x="63" y="126"/>
             <Swatch color="BLUE" x="206" y="204">
-                <property name="alpha">
-                    <value>255</value>
+                <property name="coefficient_table">
+                    <table rows="3">
+                        <row x="0.0" y="1.0"/>
+                        <row x="1.5" y="0.5"/>
+                        <row x="1.0" y="0.2"/>
+                    </table>
                 </property>
             </Swatch>
-            <Swatch color="MAGENTA" x="345" y="131">
-                <property name="alpha">
-                    <value>255</value>
-                </property>
-            </Swatch>
+            <Swatch color="MAGENTA" x="345" y="131"/>
         </Swatches>
         <Connections>
             <Connection sourceIndex="0" targetIdx="3"/>
@@ -45,34 +41,30 @@
             <Color name="MAGENTA"/>
         </Palette>
         <Swatches>
-            <Swatch color="MAGENTA" x="366" y="101">
-                <property name="alpha">
-                    <value>100</value>
-                </property>
-            </Swatch>
+            <Swatch color="MAGENTA" x="359" y="206"/>
             <Swatch color="RED" x="339" y="79">
                 <property name="alpha">
                     <value>255</value>
                 </property>
             </Swatch>
-            <Swatch color="BLUE" x="390" y="79">
-                <property name="alpha">
-                    <value>255</value>
-                </property>
-            </Swatch>
-            <Swatch color="MAGENTA" x="338" y="126">
-                <property name="alpha">
-                    <value>255</value>
-                </property>
-            </Swatch>
-            <Swatch color="BLUE" x="434" y="141">
+            <Swatch color="MAGENTA" x="338" y="126"/>
+            <Swatch color="RED" x="448" y="111">
                 <property name="alpha">
                     <value>100</value>
                 </property>
             </Swatch>
-            <Swatch color="RED" x="434" y="141">
-                <property name="alpha">
-                    <value>100</value>
+            <Swatch color="BLUE" x="143" y="124">
+                <property name="coefficient_table">
+                    <table/>
+                </property>
+            </Swatch>
+            <Swatch color="BLUE" x="402" y="28">
+                <property name="coefficient_table">
+                    <table rows="3">
+                        <row x=".8" y="1.1"/>
+                        <row x="1.25" y="0.5"/>
+                        <row x="1.0" y="0.2"/>
+                    </table>
                 </property>
             </Swatch>
         </Swatches>
@@ -84,11 +76,7 @@
             <Color name="GREEN"/>
         </Palette>
         <Swatches>
-            <Swatch color="GREEN" x="417" y="68">
-                <property name="alpha">
-                    <value>50</value>
-                </property>
-            </Swatch>
+            <Swatch color="GREEN" x="417" y="68"/>
             <Swatch color="ORANGE" x="346" y="104">
                 <property name="alpha">
                     <value>0</value>
@@ -101,7 +89,7 @@
             </Swatch>
             <Swatch color="ORANGE" x="362" y="23">
                 <property name="alpha">
-                    <value>255</value>
+                    <value>150</value>
                 </property>
             </Swatch>
         </Swatches>
