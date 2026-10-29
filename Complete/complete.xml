@@ -11,7 +11,7 @@
         <Swatches>
             <Swatch color="RED" x="204" y="36">
                 <property name="alpha">
-                    <value>255</value>
+                    <value>100</value>
                 </property>
             </Swatch>
             <Swatch color="GREEN" x="63" y="126"/>
@@ -24,7 +24,12 @@
                     </table>
                 </property>
             </Swatch>
-            <Swatch color="MAGENTA" x="345" y="131"/>
+            <Swatch color="MAGENTA" x="344" y="131"/>
+            <Swatch color="RED" x="419" y="49">
+                <property name="alpha">
+                    <value>255</value>
+                </property>
+            </Swatch>
         </Swatches>
         <Connections>
             <Connection sourceIndex="0" targetIdx="3"/>
@@ -32,6 +37,7 @@
             <Connection sourceIndex="0" targetIdx="1"/>
             <Connection sourceIndex="1" targetIdx="2"/>
             <Connection sourceIndex="0" targetIdx="2"/>
+            <Connection sourceIndex="4" targetIdx="3"/>
         </Connections>
     </Tab>
     <Tab title="Workspace 2">
@@ -55,7 +61,7 @@
             </Swatch>
             <Swatch color="BLUE" x="143" y="124">
                 <property name="coefficient_table">
-                    <table/>
+                    <table rows="0"/>
                 </property>
             </Swatch>
             <Swatch color="BLUE" x="402" y="28">
