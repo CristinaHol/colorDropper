@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<MultiTabWorkspace>
+    <AuthorMetadata date="2026-11-02" name="Cristina"/>
+    <Tab title="Color Workspace 1">
+        <Palette>
+            <Color name="RED"/>
+            <Color name="GREEN"/>
+            <Color name="BLUE"/>
+            <Color name="ORANGE"/>
+            <Color name="MAGENTA"/>
+        </Palette>
+        <Swatches>
+            <Swatch color="RED" x="189" y="98">
+                <property name="alpha">
+                    <value>255</value>
+                </property>
+            </Swatch>
+            <Swatch color="RED" x="279" y="95">
+                <property name="alpha">
+                    <value>255</value>
+                </property>
+            </Swatch>
+            <Swatch color="GREEN" x="356" y="95"/>
+            <Swatch color="BLUE" x="407" y="95">
+                <property name="coefficient_table">
+                    <table rows="0"/>
+                </property>
+            </Swatch>
+            <Swatch color="ORANGE" x="484" y="95">
+                <property name="alpha">
+                    <value>255</value>
+                </property>
+            </Swatch>
+            <Swatch color="MAGENTA" x="356" y="249"/>
+            <Swatch color="GREEN" x="220" y="230"/>
+            <Swatch color="RED" x="472" y="208">
+                <property name="alpha">
+                    <value>255</value>
+                </property>
+            </Swatch>
+            <Swatch color="MAGENTA" x="592" y="186"/>
+        </Swatches>
+        <Connections>
+            <Connection sourceIndex="0" targetIdx="6"/>
+            <Connection sourceIndex="1" targetIdx="5"/>
+            <Connection sourceIndex="2" targetIdx="7"/>
+            <Connection sourceIndex="3" targetIdx="8"/>
+            <Connection sourceIndex="4" targetIdx="8"/>
+        </Connections>
+    </Tab>
+    <Tab title="Color Workspace 2">
+        <Palette>
+            <Color name="BLUE"/>
+            <Color name="RED"/>
+            <Color name="MAGENTA"/>
+        </Palette>
+        <Swatches>
+            <Swatch color="MAGENTA" x="486" y="141"/>
+            <Swatch color="BLUE" x="257" y="147">
+                <property name="coefficient_table">
+                    <table rows="0"/>
+                </property>
+            </Swatch>
+            <Swatch color="RED" x="327" y="268">
+                <property name="alpha">
+                    <value>255</value>
+                </property>
+            </Swatch>
+        </Swatches>
+        <Connections>
+            <Connection sourceIndex="1" targetIdx="2"/>
+            <Connection sourceIndex="1" targetIdx="0"/>
+        </Connections>
+    </Tab>
+    <Tab title="Color Workspace 3">
+        <Palette>
+            <Color name="ORANGE"/>
+            <Color name="GREEN"/>
+        </Palette>
+        <Swatches>
+            <Swatch color="GREEN" x="226" y="180"/>
+            <Swatch color="ORANGE" x="397" y="190">
+                <property name="alpha">
+                    <value>255</value>
+                </property>
+            </Swatch>
+            <Swatch color="GREEN" x="289" y="282"/>
+        </Swatches>
+        <Connections>
+            <Connection sourceIndex="0" targetIdx="1"/>
+            <Connection sourceIndex="0" targetIdx="2"/>
+        </Connections>
+    </Tab>
+</MultiTabWorkspace>

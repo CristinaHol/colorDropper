@@ -219,5 +219,9 @@ public class DragDropCanvas extends JPanel{
 
         protected void onRightClick(JComponent comp, MouseEvent e){}
 
+        
+
+
+
 
     }
